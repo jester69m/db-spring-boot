@@ -3,12 +3,6 @@ package pr1.truck;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
-import pr1.custom.Custom;
-
-import java.util.List;
-
 /**
  * Вантажівка - місткість об’єму, місткість ваги
  * */

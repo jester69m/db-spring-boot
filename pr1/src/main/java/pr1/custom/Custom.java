@@ -4,14 +4,10 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import pr1.customer.Customer;
 import pr1.department.Department;
 import pr1.recipient.Recipient;
 import pr1.truck.Truck;
-
-import java.util.List;
 
 /**
  * Замовлення - вартість, вага, об’єм(всі не можуть від’ємними), статус
@@ -53,12 +49,6 @@ public class Custom {
 
     public Custom() {}
 
-//    public Custom(int price, int weight, int volume, pr1.custom.customStatus customStatus){
-//        this.price = price;
-//        this.weight = weight;
-//        this.volume = volume;
-//        this.customStatus = customStatus;
-//    }
     public Custom(int price, int weight, int volume, pr1.custom.customStatus customStatus,
                   Customer customer, Recipient recipient, Truck truck, Department department) {
         this.price = price;

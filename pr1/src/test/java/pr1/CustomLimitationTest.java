@@ -20,9 +20,6 @@ import pr1.truck.ITruckRepository;
 import pr1.truck.Truck;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-
 @SpringBootTest
 @Transactional
 public class CustomLimitationTest {
@@ -56,7 +53,6 @@ public class CustomLimitationTest {
         iDepartmentRepository.saveAndFlush(d1);
 
         custom1 = new Custom(50,1,1, customStatus.recent,c1,r1,t1,d1);
-//        custom1 = new Custom(50,1,1, customStatus.recent);
     }
 
     @Test

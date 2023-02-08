@@ -2,8 +2,6 @@ package pr1.department;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import pr1.custom.Custom;
 
 import java.util.List;

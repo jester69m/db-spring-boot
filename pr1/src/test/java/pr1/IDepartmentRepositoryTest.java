@@ -1,6 +1,5 @@
 package pr1;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import pr1.truck.ITruckRepository;
 import pr1.truck.Truck;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @SpringBootTest
@@ -70,10 +68,8 @@ public class IDepartmentRepositoryTest {
         iTruckRepository.saveAndFlush(t1);
 
         Custom custom1 = new Custom(50,10,10, customStatus.inProgress,c1,r1,t1,department1);
-//        Custom custom1 = new Custom(50,10,10, customStatus.inProgress);
         iCustomRepository.saveAndFlush(custom1);
         Custom custom2 = new Custom(150,20,20, customStatus.recent,c1,r1,t1,department1);
-//        Custom custom2 = new Custom(150,20,20, customStatus.recent);
         iCustomRepository.saveAndFlush(custom2);
         List<Custom> customs = new ArrayList<>();
         customs.add(custom1);
