@@ -1,4 +1,4 @@
-package pr1.Entity;
+package pr1.recipient;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,4 +1,4 @@
-package pr1.Entity;
+package pr1.custom;
 
 public enum customStatus {
     recent,

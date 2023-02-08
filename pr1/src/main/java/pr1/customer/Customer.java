@@ -1,4 +1,4 @@
-package pr1.Entity;
+package pr1.customer;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
