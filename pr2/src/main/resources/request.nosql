@@ -1,0 +1,58 @@
+db.project.insertMany([
+  {
+    "id" : "0",
+    "name" : "Project0"
+  },
+  {
+    "id" : "1",
+    "name" : "Project1"
+  },
+  {
+    "id" : "2",
+    "name" : "Project2"
+  }
+])
+db.department.insertMany([
+  {
+    "id" : "0",
+    "name" : "Department0"
+  },
+  {
+    "id" : "1",
+    "name" : "Department1"
+  }
+])
+db.employee.insertMany([
+  {
+    "id" : "0",
+    "firstName" : "firstName0",
+    "secondName" : "secondName0",
+    "gender" : "gender0",
+    "projects_id":["0","1"],
+    "department_id" : "0"
+  },
+{
+      "id" : "1",
+      "firstName" : "firstName1",
+      "secondName" : "secondName1",
+      "gender" : "gender1",
+      "projects_id":["1","2"],
+      "department_id" : "1"
+    }
+])
+
+    db.employee.find()
+    db.employee.find({
+    "project_id" : "1"
+    })
+
+db.employee.aggregate([
+    {$lookup: {from: 'department',localField : 'department_id', foreignField : 'id', as: 'department'}},
+    {$lookup: {from: 'project',localField : 'projects_id', foreignField : 'id', as: 'projects'}},
+    {
+        $project: {
+            "department_id":0, "_id": 0, "department._id": 0, "department.id":0,
+            "projects_id":0, "projects.id":0, "projects._id":0,"id":0
+        }
+    }
+])
