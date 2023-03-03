@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS addresses (
     value VARCHAR(50) NOT NULL
 );
 INSERT INTO addresses (
-                      SELECT e.id,e.address FROM employees e
+                      SELECT e.id,e.address FROM employee e
                       );

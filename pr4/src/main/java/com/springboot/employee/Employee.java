@@ -13,7 +13,6 @@ import org.hibernate.annotations.Parameter;
 @Getter
 @Setter
 @Entity
-@Table(name="employees")
 public class Employee {
 
     @Id
@@ -21,7 +20,6 @@ public class Employee {
     @GeneratedValue(generator = "emp-id-generator")
     @GenericGenerator(name = "emp-id-generator",
             strategy = "com.springboot.generator.MyIdGenerator")
-    @Column(name="employee_id")
     private long id;
 
     @NotNull

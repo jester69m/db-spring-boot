@@ -4,5 +4,5 @@ CREATE TABLE IF NOT EXISTS avg_salary_region(
 );
 INSERT INTO avg_salary_region (region_value, avg_salary)
         SELECT address, AVG(salary)
-        FROM employees
+        FROM employee
         GROUP BY address;
