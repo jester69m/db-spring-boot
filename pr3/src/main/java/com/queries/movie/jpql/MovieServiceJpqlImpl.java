@@ -1,9 +1,14 @@
 package com.queries.movie.jpql;
 
 import com.queries.movie.Movie;
+import com.queries.movie.Movie1;
 import com.queries.movie.MovieRepository;
+import com.queries.movie.MovieRepository1;
 import com.queries.movie.specificQuery.MyQuery;
 import com.queries.movie.specificQuery.SearchOperator;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,86 +17,60 @@ import java.util.List;
 @Service
 public class MovieServiceJpqlImpl implements MovieServiceJpql{
 
-    private final MovieRepository repository;
+    private final MovieRepository1 repository;
+    @PersistenceContext
+    EntityManager em;
 
-    public MovieServiceJpqlImpl(MovieRepository repository){
+    public MovieServiceJpqlImpl(MovieRepository1 repository){
         this.repository = repository;
     }
 
     @Override
-    public List<Movie> getAllMovieByProducer(String producer) {
+    public List<Movie1> getAllMovieByProducer(String producer) {
         return repository.findAllByProducer(producer);
     }
 
     @Override
-    public List<Movie> getAllMovieByAllDirector(List<String> directors) {
-        List<Movie> result = new ArrayList<>();
-        for(Movie m : repository.findAll()){
-            if(m.getDirectors().containsAll(directors))
-                result.add(m);
-        }
-        return result;
+    public List<Movie1> getAllMovieByAllDirector(String directors) {
+        return repository.findAllByGroupOfDirector(directors);
     }
 
     @Override
-    public List<Movie> getAllMovieByAtLeastOneDirector(List<String> directors) {
-        List<Movie> result = new ArrayList<>();
-        for(Movie m : repository.findAll()){
-            for(String s : directors){
-                if(m.getDirectors().contains(s)){
-                    result.add(m);
-                    break;
-                }
-            }
+    public List<Movie1> getAllMovieByAtLeastOneDirector(List<String> directors) {
+        List<Movie1> res = new ArrayList<>();
+        for(String s : directors){
+            for(Movie1 m1 : getAllMovieByAllDirector(s))
+                if(!res.contains(m1))
+                    res.add(m1);
         }
-        return result;
+        return res;
     }
 
     @Override
-    public List<Movie> getAllMovieInCashierFeesDiapasonAndByGenres(long min, long max,List<String> genres) {
-        List<Movie> result = new ArrayList<>();
-        for(Movie m : repository.findAllByCashierFeesBetween(min,max)){
-            if(m.getGenres().containsAll(genres))
-                result.add(m);
-        }
-        return result;
+    public List<Movie1> getAllMovieInCashierFeesDiapasonAndByGenres(long min, long max,String genres) {
+        return repository.findAllByCashierFeesBetweenAndByGenres(min,max,genres);
     }
 
     @Override
-    public List<Movie> getAllMovieByMinAge(int maxAge) {
+    public List<Movie1> getAllMovieByMinAge(int maxAge) {
         return repository.findAllByMinAgeLessThan(maxAge);
     }
 
     @Override
-    public List<Movie> getAllMovieByMinAge(int minAge, int maxAge) {
+    public List<Movie1> getAllMovieByMinAge(int minAge, int maxAge) {
         return repository.findAllByMinAgeBetween(minAge,maxAge);
     }
 
     @Override
-    public List<Movie> getAllMovieByTextFragment(String textFragment) {
-        List<Movie> result = repository.findAllByTextFragment(textFragment);
-        for(Movie m : repository.findAll()){
-            if(m.getGenres().stream().anyMatch(n -> n.matches("[\\w]*"+textFragment+"[\\w]*")))
-                if(!result.contains(m))
-                    result.add(m);
-            if(m.getActors().stream().anyMatch(n -> n.matches("[\\w]*"+textFragment+"[\\w]*")))
-                if(!result.contains(m))
-                    result.add(m);
-            if(m.getDirectors().stream().anyMatch(n -> n.matches("[\\w]*"+textFragment+"[\\w]*")))
-                if(!result.contains(m))
-                    result.add(m);
-            if(m.getDistributor().stream().anyMatch(n -> n.matches("[\\w]*"+textFragment+"[\\w]*")))
-                if(!result.contains(m))
-                    result.add(m);
-        }
+    public List<Movie1> getAllMovieByTextFragment(String textFragment) {
         return repository.findAllByTextFragment(textFragment);
     }
 
-    public List<Movie> searchMovies(List<MyQuery> queries) {
-        List<Movie> allMovies = repository.findAll(); // отримати усі фільми
-        List<Movie> filteredMovies = new ArrayList<>(); // список фільмів, що відповідають критеріям пошуку
+    public List<Movie1> searchMovies(List<MyQuery> queries) {
+        List<Movie1> allMovies = repository.findAll(); // отримати усі фільми
+        List<Movie1> filteredMovies = new ArrayList<>(); // список фільмів, що відповідають критеріям пошуку
 
-        for (Movie movie : allMovies) {
+        for (Movie1 movie : allMovies) {
             boolean isMatch = true;
 
             for (MyQuery myQuery : queries) {
