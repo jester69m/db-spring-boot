@@ -28,7 +28,10 @@ public class GeneratorTest {
         Employee e1 = new Employee("Abdul1","Magomedov","manager",25000,"+380953413409","Ukraine, Kyiv");
         Assertions.assertDoesNotThrow(() -> repository.saveAndFlush(e));
         Assertions.assertDoesNotThrow(() -> repository.saveAndFlush(e1));
-        Optional<Employee> tryToFind = service.findByFirstName(e1.getFirstName());
-        Assert.assertEquals(tryToFind.get().getId(),2);
+        Optional<Employee> tryToFind0 = service.findByFirstName(e.getFirstName());
+        Optional<Employee> tryToFind1 = service.findByFirstName(e1.getFirstName());
+        Assertions.assertNotNull(tryToFind0.get().getId());
+        Assertions.assertNotNull(tryToFind1.get().getId());
+        Assert.assertNotEquals(tryToFind0.get().getId(),tryToFind1.get().getId());
     }
 }
