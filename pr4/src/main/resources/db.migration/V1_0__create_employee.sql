@@ -1,5 +1,3 @@
-drop table if exists employee cascade;
-
 create table employee (
     id bigint not null,
     address varchar(255),
