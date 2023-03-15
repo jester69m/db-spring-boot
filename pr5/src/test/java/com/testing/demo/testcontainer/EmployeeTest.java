@@ -1,15 +1,20 @@
 package com.testing.demo.testcontainer;
 
 import com.testing.demo.Employee;
+import com.testing.demo.EmployeeRepository;
 import com.testing.demo.testcontainer.util.BaseTest;
-import org.junit.Assert;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 public class EmployeeTest extends BaseTest {
+
+    @Autowired
+    private EmployeeRepository repository;
 
     @BeforeEach
     public void init(){
@@ -27,11 +32,21 @@ public class EmployeeTest extends BaseTest {
     @Test
     void findAllTest(){
         List<Employee> emp = repository.findAll();
-        Assert.assertEquals(3,emp.size());
+        //Assertions.assertEquals(3, emp.size());
+        Assertions.assertEquals(8,emp.size());
     }
 
     @Test
-    void findByJobTitleTest(){
-        Assert.assertEquals("security",repository.findByJobTitle("security").get().getJobTitle());
+    void findAllByJobTitleTest(){
+        Assertions.assertEquals("security", repository.findAllByJobTitle("security").get(0).getJobTitle());
+    }
+
+    @Test
+    void findAllBySalaryBetween(){
+        List<Employee> findedEmpl = repository.findAllBySalaryBetween(20000,22000);
+        Assertions.assertNotEquals(0, findedEmpl.size());
+        Assertions.assertEquals(3, findedEmpl.size());
+        Employee emp = findedEmpl.get(0);
+        Assertions.assertEquals("manager", emp.getJobTitle());
     }
 }

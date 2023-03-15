@@ -8,14 +8,14 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @SpringBootTest
+@RunWith(SpringRunner.class)
 @Transactional
-@Sql("pr5/src/main/resources/data.sql")
 public class H2Tests {
 
     @Autowired
@@ -26,7 +26,8 @@ public class H2Tests {
         Employee e = new Employee("name1","name2","sales",10000,"+380957365475","Ukraine,Lviv");
         repository.save(e);
         Optional<Employee> e2 = repository.findByFirstName(e.getFirstName());
-        Assert.assertEquals(e,e2.get().getFirstName());
+        Assert.assertEquals("name1",e2.get().getFirstName());
+        Assert.assertNotEquals("name1",e2.get().getSecondName());
     }
 
     @Test
