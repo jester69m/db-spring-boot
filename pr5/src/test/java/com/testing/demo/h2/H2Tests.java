@@ -1,47 +1,45 @@
 package com.testing.demo.h2;
 
-import com.testing.demo.Employee;
-import com.testing.demo.EmployeeRepository;
-import org.junit.Assert;
+import com.testing.demo.employee.Employee;
+import com.testing.demo.employee.EmployeeRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import java.util.Optional;
 
-@SpringBootTest
-@RunWith(SpringRunner.class)
-@Transactional
+@DataJpaTest(properties = {"spring.datasource.driver-class-name=org.h2.Driver",
+        "spring.datasource.url=jdbc:h2:mem:db",
+        "spring.datasource.username=sa",
+        "spring.datasource.password=sa"})
 public class H2Tests {
 
     @Autowired
     private EmployeeRepository repository;
 
     @Test
-    public void saveTest(){
-        Employee e = new Employee("name1","name2","sales",10000,"+380957365475","Ukraine,Lviv");
-        repository.save(e);
-        Optional<Employee> e2 = repository.findByFirstName(e.getFirstName());
-        Assert.assertEquals("name1",e2.get().getFirstName());
-        Assert.assertNotEquals("name1",e2.get().getSecondName());
+    public void findTest(){
+        String name = "Name1";
+        Optional<Employee> e = repository.findByNameIgnoreCase(name);
+        Assertions.assertTrue(e.isPresent());
+        name = "name1";
+        e = repository.findByNameIgnoreCase(name);
+        Assertions.assertTrue(e.isPresent());
     }
 
     @Test
     public void updateTest(){
-        Employee e = new Employee("name1","name2","sales",10000,"+380957365475","Ukraine,Lviv");
-        repository.save(e);
-        Optional<Employee> e2 = repository.findByFirstName(e.getFirstName());
-        Assert.assertEquals("sales",e2.get().getJobTitle());
-        e.setJobTitle("director");
-        e.setSalary(35000);
-        repository.save(e);
-        e2 = repository.findByFirstName(e.getFirstName());
-        Assert.assertEquals("director",e2.get().getJobTitle());
-        Assert.assertEquals(35000,e2.get().getSalary());
+        String name = "name1";
+        Optional<Employee> e = repository.findByNameIgnoreCase(name);
+        Assertions.assertTrue(e.isPresent());
+        Employee e2 = e.get();
+        name = "changedName1";
+        e2.setName(name);
+        repository.save(e2);
+        e = repository.findByNameIgnoreCase(name);
+        Assertions.assertTrue(e.isPresent());
+        Assertions.assertEquals("manager", e.get().getJob());
+
     }
 
 }

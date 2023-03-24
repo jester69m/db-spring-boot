@@ -1,4 +1,4 @@
-package com.testing.demo;
+package com.testing.demo.employee;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.Optional;
 @Transactional
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
 
-    Optional<Employee> findByFirstName(String name);
-    List<Employee> findAllByJobTitle(String job_title);
+    Optional<Employee> findByNameIgnoreCase(String name);
+    List<Employee> findAllByJob(String job_title);
     List<Employee> findAllBySalaryBetween(int min, int max);
 }
