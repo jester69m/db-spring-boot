@@ -1,4 +1,4 @@
-INSERT INTO employees(name,job,salary) values
+INSERT INTO employees(id,name,job,salary) values
   (1,'name1','manager',20000),
   (2,'name2','manager',18000),
   (3,'name3','director',30000),

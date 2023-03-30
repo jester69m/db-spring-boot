@@ -29,7 +29,7 @@ public class ContainerBaseTest {
 
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
-                            "spring.datasource.url=" + container.getJdbcUrl().replaceFirst("jdbc", "jdbc:tc"),
+                            "spring.datasource.url=" + container.getJdbcUrl(),
                             "spring.datasource.username=" + container.getUsername(),
                             "spring.datasource.password=" + container.getPassword(),
                             "local.server.port=" + TestSocketUtils.findAvailableTcpPort()

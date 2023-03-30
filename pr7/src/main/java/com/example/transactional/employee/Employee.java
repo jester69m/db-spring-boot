@@ -3,10 +3,8 @@ package com.example.transactional.employee;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -16,6 +14,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Table(name="employees")
 public class Employee implements Serializable {
 
@@ -23,20 +22,19 @@ public class Employee implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private String firstName;
+    @Size(max=20)
+    private String name;
     @NotNull
-    private String secondName;
     private String jobTitle;
     @PositiveOrZero
     private int salary;
-    private String phoneNumber;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return salary == employee.salary && Objects.equals(id, employee.id) && Objects.equals(firstName, employee.firstName) && Objects.equals(secondName, employee.secondName) && Objects.equals(jobTitle, employee.jobTitle) && Objects.equals(phoneNumber, employee.phoneNumber);
+        return salary == employee.salary && Objects.equals(id, employee.id) && Objects.equals(name, employee.name) && Objects.equals(jobTitle, employee.jobTitle);
     }
 
     @Override
@@ -44,15 +42,4 @@ public class Employee implements Serializable {
         return Objects.hash(id);
     }
 
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", secondName='" + secondName + '\'' +
-                ", jobTitle='" + jobTitle + '\'' +
-                ", salary=" + salary +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
-    }
 }
