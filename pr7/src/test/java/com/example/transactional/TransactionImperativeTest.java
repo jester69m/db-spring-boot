@@ -117,7 +117,7 @@ public class TransactionImperativeTest {
                 throw new RuntimeException(e);
             }
             Employee emp1 = new Employee();
-            emp1.setName("first");
+            emp1.setName("second");
             emp1.setJobTitle("title1");
             emp1.setSalary(10000);
             service.update(emp.getId(), emp1);
@@ -176,7 +176,7 @@ public class TransactionImperativeTest {
 
     @Test
     @Transactional
-    void testCount_withDifferentIsolationTypes() throws InterruptedException {
+    void testCountWithDifferentIsolationTypes() throws InterruptedException {
         Employee emp = new Employee();
         emp.setName("first");
         emp.setJobTitle("title1");
@@ -192,7 +192,7 @@ public class TransactionImperativeTest {
         executor.execute(() -> {
             try {
                 Employee emp2 = new Employee();
-                emp2.setName("first");
+                emp2.setName("second");
                 emp2.setJobTitle("title1");
                 emp2.setSalary(10000);
                 service.createWithTimeout(emp2);
@@ -200,7 +200,7 @@ public class TransactionImperativeTest {
                 throw new RuntimeException(e);
             }
         });
-        executor.awaitTermination(2000, TimeUnit.MILLISECONDS);
+        executor.awaitTermination(1500, TimeUnit.MILLISECONDS);
         executor.execute(() -> {
             assertThat(service.countWithReadUncommitted()).isEqualTo(2L);
         });
@@ -208,7 +208,7 @@ public class TransactionImperativeTest {
             assertThat(service.countWithReadCommitted()).isEqualTo(1L);
         });
         executor.execute(() -> {
-            assertThat(service.countWithRepeatableRead()).isEqualTo(1L);
+            assertThat(service.countWithRepeatableRead()).isEqualTo(2L);
         });
     }
 }

@@ -1,1 +1,0 @@
-create table employees (id bigint not null, job varchar(50), name varchar(20), salary integer not null, primary key (id))

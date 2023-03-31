@@ -1,7 +1,7 @@
 package com.example.transactional.employee;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,11 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 public class EmployeeService {
 
     private TransactionTemplate template;
     private EmployeeRepository repository;
+
+    public EmployeeService(TransactionTemplate template, EmployeeRepository repository){
+        this.template = template;
+        this.repository = repository;
+    }
 
     public long count(){
         return repository.count();
