@@ -19,7 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 public class ContainerBaseTest {
 
     @Container
-    private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:15");
+    private static final PostgreSQLContainer<?> container = new PostgreSQLContainer<>("postgres:latest");
 
     static {
         container.start();
@@ -29,7 +29,7 @@ public class ContainerBaseTest {
 
         public void initialize(ConfigurableApplicationContext configurableApplicationContext) {
             TestPropertyValues.of(
-                            "spring.datasource.url=" + container.getJdbcUrl(),
+                            "spring.datasource.url=" + container.getJdbcUrl().replaceFirst("jdbc", "jdbc:tc"),
                             "spring.datasource.username=" + container.getUsername(),
                             "spring.datasource.password=" + container.getPassword(),
                             "local.server.port=" + TestSocketUtils.findAvailableTcpPort()
